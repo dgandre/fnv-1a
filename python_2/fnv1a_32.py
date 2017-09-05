@@ -51,19 +51,19 @@ FNV1A_32_PRIME = 0x01000193
 def fnv1a_32_str(string):
 	
 	# Set the offset basis
-    hash = FNV1A_32_OFFSET
+	hash = FNV1A_32_OFFSET
 
 	# For each character
-    for character in string:
+	for character in string:
 
 		# Xor with the current character
-        hash ^= ord(character)
+		hash ^= ord(character)
 
 		# Multiply by prime
-        hash *= FNV1A_32_PRIME
+		hash *= FNV1A_32_PRIME
 
 		# Clamp
-        hash &= 0xffffffff
+		hash &= 0xffffffff
 
 	# Return the final hash as a number
-    return hash
+	return hash

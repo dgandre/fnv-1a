@@ -51,19 +51,19 @@ FNV1A_256_PRIME = 0x1000000000000000000000000000000000000000163
 def fnv1a_256_str(string):
 	
 	# Set the offset basis
-    hash = FNV1A_256_OFFSET
+	hash = FNV1A_256_OFFSET
 
 	# For each character
-    for character in string:
+	for character in string:
 
 		# Xor with the current character
-        hash ^= ord(character)
+		hash ^= ord(character)
 
 		# Multiply by prime
-        hash *= FNV1A_256_PRIME
+		hash *= FNV1A_256_PRIME
 
 		# Clamp
-        hash &= 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+		hash &= 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
 	# Return the final hash as a number
-    return hash
+	return hash
