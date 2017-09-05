@@ -4,7 +4,7 @@
  *
  *  fnv-1a_32.inc.php
  *
- *  Fowler–Noll–Vo 1a 32 bits
+ *  Fowler-Noll-Vo 1a 32 bits
  *
  *  Copyright 2017 Philippe Paquet
  *

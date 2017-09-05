@@ -2,9 +2,9 @@
 
 /*
  *
- *  fnv-1a_128.inc.php
+ *  fnv-1a_64.inc.php
  *
- *  Fowler–Noll–Vo 1a 128 bits
+ *  Fowler-Noll-Vo 1a 64 bits
  *
  *  Copyright 2017 Philippe Paquet
  *
@@ -30,50 +30,42 @@
 //
 // Offset basis
 //
-// 0x6c62272e07bb014262b821756295c58d
+// 0xcbf29ce484222325
 // as a base 2^16 array
 //
 
-define("FNV1A_128_OFFSET_0", 0xc58d);
-define("FNV1A_128_OFFSET_1", 0x6295);
-define("FNV1A_128_OFFSET_2", 0x2175);
-define("FNV1A_128_OFFSET_3", 0x62b8);
-define("FNV1A_128_OFFSET_4", 0x0142);
-define("FNV1A_128_OFFSET_5", 0x07bb);
-define("FNV1A_128_OFFSET_6", 0x272e);
-define("FNV1A_128_OFFSET_7", 0x6c62);
+define("FNV1A_64_OFFSET_0", 0x2325);
+define("FNV1A_64_OFFSET_1", 0x8422);
+define("FNV1A_64_OFFSET_2", 0x9ce4);
+define("FNV1A_64_OFFSET_3", 0xcbf2);
 
 //
 // Prime
 //
-// 2^88 + 2^8 + 0x3b
-// 0x1000000000000000000013b
+// 2^40 + 2^8 + 0xb3
+// 0x100000001b3
 // as PRIME_LOW and PRIME_SHIFT
 //
 
-define("FNV1A_128_PRIME_LOW", 0x13b);
-define("FNV1A_128_PRIME_SHIFT", 8);
+define("FNV1A_64_PRIME_LOW", 0x1b3);
+define("FNV1A_64_PRIME_SHIFT", 8);
 
 
 
 
 
 //
-// FNV-1a 128 hash on a string
+// FNV-1a 64 hash on a string
 //
 
-function fnv1a_128_str($string)
+function fnv1a_64_str($string)
 {
 	// Create the offset basis as a base 2^16 array
-    $hash[8];
-    $hash[0] = FNV1A_128_OFFSET_0;
-    $hash[1] = FNV1A_128_OFFSET_1;
-    $hash[2] = FNV1A_128_OFFSET_2;
-    $hash[3] = FNV1A_128_OFFSET_3;
-    $hash[4] = FNV1A_128_OFFSET_4;
-    $hash[5] = FNV1A_128_OFFSET_5;
-    $hash[6] = FNV1A_128_OFFSET_6;
-    $hash[7] = FNV1A_128_OFFSET_7;
+    $hash[4];
+    $hash[0] = FNV1A_64_OFFSET_0;
+    $hash[1] = FNV1A_64_OFFSET_1;
+    $hash[2] = FNV1A_64_OFFSET_2;
+    $hash[3] = FNV1A_64_OFFSET_3;
 
 	// If we have characters to process
 	if (strlen($string) > 0) {
@@ -88,23 +80,23 @@ function fnv1a_128_str($string)
 			$hash[0] ^= ord($chr);
 
 			// Multiply by the lowest order digit base 2^16
-			$tmp[8];
-			for ($i = 0; $i <= 7; $i++) {
-				$tmp[$i] = $hash[$i] * FNV1A_128_PRIME_LOW;
+			$tmp[4];
+			for ($i = 0; $i <= 3; $i++) {
+				$tmp[$i] = $hash[$i] * FNV1A_64_PRIME_LOW;
 			}
 
 			// Multiply by the other non-zero digit
-			for ($i = 5; $i <= 7; $i++) {
-				$tmp[$i] += $hash[$i - 5] << FNV1A_128_PRIME_SHIFT;
+			for ($i = 2; $i <= 3; $i++) {
+				$tmp[$i] += $hash[$i - 2] << FNV1A_64_PRIME_SHIFT;
 			}
 
 			// Propagate carries
-			for ($i = 1; $i <= 7; $i++) {
+			for ($i = 1; $i <= 3; $i++) {
 				$tmp[$i] += ($tmp[$i - 1] >> 16);
 			}
 
 			// Clamp
-			for ($i = 0; $i <= 7; $i++) {
+			for ($i = 0; $i <= 3; $i++) {
 				$hash[$i] = $tmp[$i] & 0xffff;
 			}
 		}
@@ -112,7 +104,7 @@ function fnv1a_128_str($string)
 
 	// Return the final hash as an hexadecimal string
 	$final_hash = '';
-	for ($i = 7; $i >= 0; $i--) {
+	for ($i = 3; $i >= 0; $i--) {
 		$final_hash .= str_pad(dechex($hash[$i]), 4, '0', STR_PAD_LEFT);
 	}
 	return $final_hash;

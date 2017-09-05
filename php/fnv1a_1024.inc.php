@@ -4,7 +4,7 @@
  *
  *  fnv-1a_1024.inc.php
  *
- *  Fowler–Noll–Vo 1a 1024 bits
+ *  Fowler-Noll-Vo 1a 1024 bits
  *
  *  Copyright 2017 Philippe Paquet
  *
